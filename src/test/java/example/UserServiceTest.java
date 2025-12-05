@@ -9,6 +9,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import static org.mockito.Mockito.verify;
+import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
@@ -29,38 +31,38 @@ public class UserServiceTest extends TestCase {
     // 2️⃣ Mock Final Method
     @Test
     public void testFinalMethod() throws Exception {
-        UserService service = PowerMockito.mock(UserService.class);
+        UserService service = mock(UserService.class);
 
         when(service.finalCalculation()).thenReturn("MOCK_FINAL");
 
         assert service.finalCalculation().equals("MOCK_FINAL");
     }
-//    // 3️⃣ Mock Private Method
-//    @Test
-//    public void testPrivateMethod() throws Exception {
-//        PaymentService service = PowerMockito.spy(new PaymentService());
-//
-//        PowerMockito.doReturn("MOCK_KEY")
-//                .when(service, "generateSecretKey");
-//
-//        String result = service.processPayment();
-//
-//        assert result.contains("MOCK_KEY");
-//    }
-//
-//    // 4️⃣ Mock Constructor Call
-//    @Test
-//    public void testConstructorMocking() throws Exception {
-//        EmailSender mockSender = mock(EmailSender.class);
-//        when(mockSender.sendEmail()).thenReturn("MOCK_EMAIL");
-//
-//        PowerMockito.whenNew(EmailSender.class).withNoArguments().thenReturn(mockSender);
-//
-//        PaymentService service = new PaymentService();
-//
-//        String res = service.callEmailSender();
-//
-//        assert res.equals("MOCK_EMAIL");
-//        verify(mockSender).sendEmail();
-//    }
+    // 3️⃣ Mock Private Method
+    @Test
+    public void testPrivateMethod() throws Exception {
+        UserService service = PowerMockito.spy(new UserService());
+
+        PowerMockito.doReturn("MOCK_KEY")
+                .when(service, "generateSecretKey");
+
+        String result = service.processPayment();
+
+        assert result.contains("MOCK_KEY");
+    }
+
+    // 4️⃣ Mock Constructor Call
+    @Test
+    public void testConstructorMocking() throws Exception {
+        EmailSender mockSender = mock(EmailSender.class);
+        when(mockSender.sendEmail()).thenReturn("MOCK_EMAIL");
+
+        PowerMockito.whenNew(EmailSender.class).withNoArguments().thenReturn(mockSender);
+
+        UserService service = new UserService();
+
+        String res = service.callEmailSender();
+
+        assert res.equals("MOCK_EMAIL");
+        verify(mockSender).sendEmail();
+    }
 }
